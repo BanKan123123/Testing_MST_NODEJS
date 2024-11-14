@@ -8,22 +8,25 @@ import jwt from 'jsonwebtoken';
 class AuthController {
     async login(req: Request, res: Response, next: NextFunction) {
         const key = process.env.JWT_SECRET || '';
-        //get User
         try {
+            // Tìm người dùng theo email
             const user = await UserModel.findOne({ email: req.body.email });
             if (!user) {
                 return res.status(HttpStatusCode.UNAUTHORIZED).send({ message: 'User not found' });
             }
 
-            comparePassword(req.body.password, user.password, (err) => {
-                if (err) return res.status(HttpStatusCode.UNAUTHORIZED).send({ message: 'Invalid password' });
+            // So sánh mật khẩu
+            const isPasswordValid = await comparePassword(req.body.password, user.password);
+            if (!isPasswordValid) {
+                return res.status(HttpStatusCode.UNAUTHORIZED).send({ message: 'Invalid password' });
+            }
 
-                const token = jwt.sign({ email: user.email }, key, { expiresIn: '1h' });
+            // Tạo JWT token nếu mật khẩu hợp lệ
+            const token = jwt.sign({ email: user.email }, key, { expiresIn: '1h' });
 
-                res.status(HttpStatusCode.OK).send({
-                    user,
-                    token
-                });
+            res.status(HttpStatusCode.OK).send({
+                user,
+                token
             });
         } catch (err) {
             next(err);

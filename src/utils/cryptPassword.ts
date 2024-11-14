@@ -10,8 +10,6 @@ export function cryptPassword(password: string, callback: (err: Error | undefine
     });
 }
 
-export function comparePassword(plainPass: string, hashword: string, callback: (err: Error | undefined, isPasswordMatch: boolean) => void) {
-    bcrypt.compare(plainPass, hashword, function (err, isPasswordMatch) {
-        return callback(err, isPasswordMatch);
-    });
+export function comparePassword(plainPass: string, hashword: string): Promise<boolean> {
+    return bcrypt.compare(plainPass, hashword);
 }
