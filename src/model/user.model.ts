@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 // Schema
 const schema = new Schema({
     name: { type: String, required: true },
@@ -6,4 +6,4 @@ const schema = new Schema({
     password: { type: String, required: true }
 });
 
-export default model('User', schema); 
+export default model('User', schema);

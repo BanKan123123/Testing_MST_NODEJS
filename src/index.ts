@@ -3,6 +3,7 @@ import cors from 'cors';
 import { connect } from './config/config-connectDB';
 import Routes from './router/routes';
 import { authMiddleware } from './middleware/auth.middleware';
+import path from 'path';
 
 connect();
 
@@ -18,9 +19,12 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 //Testing JWT Acccess route API
-app.get('/protected-route', authMiddleware, (req, res) => {
+app.get('/protected-route', authMiddleware, (req: Request, res: Response) => {
     res.status(200).json({ message: 'You have access to this protected route.' });
+
 });
+
+app.use('/public/image', express.static(path.join(__dirname, 'public/image')));
 
 // Checking Route exists in the APP
 app.use((req: Request, res: Response) => {
