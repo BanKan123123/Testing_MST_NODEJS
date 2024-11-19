@@ -145,4 +145,4 @@ Dự án bao gồm các endpoint chính cho xác thực người dùng như sau:
 - **URL**: `/api/user/update-password/:id'`
 - **Method**: `PATCH`
 - **Body**: JSON
-- **Description**: Cập nhật mẩu khẩu của user
+- **Description**: Cập nhật mẩu khẩu của user# NestJS_MST
